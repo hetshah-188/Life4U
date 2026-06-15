@@ -5,7 +5,7 @@ if (!process.env.JWT_SECRET) {
   console.error('FATAL: JWT_SECRET env var is not set. Exiting.');
   process.exit(1);
 }
-if (!process.env.DB_PASSWORD) {
+if (!process.env.DATABASE_URL && !process.env.DB_PASSWORD) {
   console.error('FATAL: DB_PASSWORD env var is not set. Exiting.');
   process.exit(1);
 }
