@@ -1,0 +1,96 @@
+[
+  {
+    "_id": { "$oid": "64a0b2dcf9c4a7001b900007" },
+    "bloodType": "A+",
+    "quantity": 1,
+    "unit": "bags",
+    "volume": 450,
+    "collectionDate": { "$date": "2024-03-01T10:00:00Z" },
+    "expiryDate": { "$date": "2024-04-12T10:00:00Z" },
+    "donorId": { "$oid": "64a0b2dcf9c4a7001b900005" },
+    "donorName": "Rahul Verma",
+    "donorPhone": "9876543211",
+    "status": "available",
+    "testResults": {
+      "bloodTyping": "A+",
+      "rhesusFactor": "Positive",
+      "hiv": "negative",
+      "hepatitisB": "negative",
+      "hepatitisC": "negative",
+      "syphilis": "negative",
+      "malaria": "negative",
+      "testDate": { "$date": "2024-03-02T10:00:00Z" },
+      "remarks": "All clear"
+    },
+    "storage": {
+      "location": "Main Freezer 1",
+      "shelf": "A12",
+      "temperature": 4
+    },
+    "createdAt": { "$date": "2024-03-01T10:30:00Z" },
+    "updatedAt": { "$date": "2024-03-02T10:30:00Z" }
+  },
+  {
+    "_id": { "$oid": "64a0b2dcf9c4a7001b900008" },
+    "bloodType": "O-",
+    "quantity": 1,
+    "unit": "bags",
+    "volume": 450,
+    "collectionDate": { "$date": "2024-03-15T10:00:00Z" },
+    "expiryDate": { "$date": "2024-04-26T10:00:00Z" },
+    "donorId": { "$oid": "64a0b2dcf9c4a7001b900006" },
+    "donorName": "Priya Singh",
+    "donorPhone": "9876543212",
+    "status": "available",
+    "testResults": {
+      "bloodTyping": "O-",
+      "rhesusFactor": "Negative",
+      "hiv": "negative",
+      "hepatitisB": "negative",
+      "hepatitisC": "negative",
+      "syphilis": "negative",
+      "malaria": "negative",
+      "testDate": { "$date": "2024-03-16T10:00:00Z" },
+      "remarks": "All clear, Universal Donor"
+    },
+    "storage": {
+      "location": "Main Freezer 2",
+      "shelf": "B05",
+      "temperature": 4
+    },
+    "createdAt": { "$date": "2024-03-15T10:30:00Z" },
+    "updatedAt": { "$date": "2024-03-16T10:30:00Z" }
+  },
+  {
+    "_id": { "$oid": "64a0b2dcf9c4a7001b900009" },
+    "bloodType": "O-",
+    "quantity": 1,
+    "unit": "bags",
+    "volume": 450,
+    "collectionDate": { "$date": "2024-01-10T10:00:00Z" },
+    "expiryDate": { "$date": "2024-02-21T10:00:00Z" },
+    "donorId": { "$oid": "64a0b2dcf9c4a7001b900006" },
+    "donorName": "Priya Singh",
+    "donorPhone": "9876543212",
+    "status": "expired",
+    "testResults": {
+      "bloodTyping": "O-",
+      "rhesusFactor": "Negative",
+      "hiv": "negative",
+      "hepatitisB": "negative",
+      "hepatitisC": "negative",
+      "syphilis": "negative",
+      "malaria": "negative",
+      "testDate": { "$date": "2024-01-11T10:00:00Z" },
+      "remarks": "All clear"
+    },
+    "storage": {
+      "location": "Discard Bin 1",
+      "shelf": "N/A",
+      "temperature": 15
+    },
+    "notes": "Expired and pending discard protocols",
+    "createdAt": { "$date": "2024-01-10T10:30:00Z" },
+    "updatedAt": { "$date": "2024-02-22T08:00:00Z" }
+  }
+]

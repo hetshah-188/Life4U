@@ -1,0 +1,72 @@
+[
+  {
+    "_id": { "$oid": "64a0b2dcf9c4a7001b900005" },
+    "userId": { "$oid": "64a0b2dcf9c4a7001b900002" },
+    "bloodType": "A+",
+    "dateOfBirth": { "$date": "1995-06-15T00:00:00Z" },
+    "weight": 75,
+    "height": 178,
+    "gender": "male",
+    "medicalHistory": {
+      "hasHighBloodPressure": false,
+      "hasDiabetes": false,
+      "hasHeartDisease": false,
+      "hasBleeding": false,
+      "hasInfection": false,
+      "medications": "None",
+      "allergies": "None",
+      "lastCheckupDate": { "$date": "2024-02-01T00:00:00Z" }
+    },
+    "donationHistory": {
+      "totalDonations": 2,
+      "lastDonationDate": { "$date": "2024-03-01T00:00:00Z" },
+      "nextEligibleDate": { "$date": "2024-05-01T00:00:00Z" }
+    },
+    "status": "eligible",
+    "location": {
+      "city": "Mumbai",
+      "state": "Maharashtra",
+      "pincode": "400016"
+    },
+    "availability": "weekends",
+    "contactPreference": "phone",
+    "rewardPoints": 100,
+    "createdAt": { "$date": "2024-02-15T12:05:00Z" },
+    "updatedAt": { "$date": "2024-03-01T10:00:00Z" }
+  },
+  {
+    "_id": { "$oid": "64a0b2dcf9c4a7001b900006" },
+    "userId": { "$oid": "64a0b2dcf9c4a7001b900003" },
+    "bloodType": "O-",
+    "dateOfBirth": { "$date": "1990-11-23T00:00:00Z" },
+    "weight": 65,
+    "height": 165,
+    "gender": "female",
+    "medicalHistory": {
+      "hasHighBloodPressure": false,
+      "hasDiabetes": false,
+      "hasHeartDisease": false,
+      "hasBleeding": false,
+      "hasInfection": false,
+      "medications": "Vitamins",
+      "allergies": "Dust",
+      "lastCheckupDate": { "$date": "2024-01-20T00:00:00Z" }
+    },
+    "donationHistory": {
+      "totalDonations": 5,
+      "lastDonationDate": { "$date": "2024-02-15T00:00:00Z" },
+      "nextEligibleDate": { "$date": "2024-04-15T00:00:00Z" }
+    },
+    "status": "eligible",
+    "location": {
+      "city": "Bangalore",
+      "state": "Karnataka",
+      "pincode": "560001"
+    },
+    "availability": "always",
+    "contactPreference": "email",
+    "rewardPoints": 250,
+    "createdAt": { "$date": "2024-03-10T14:35:00Z" },
+    "updatedAt": { "$date": "2024-03-10T14:35:00Z" }
+  }
+]

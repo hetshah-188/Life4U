@@ -1,0 +1,30 @@
+[
+  {
+    "_id": { "$oid": "64a0b2dcf9c4a7001b90000c" },
+    "donorId": { "$oid": "64a0b2dcf9c4a7001b900002" },
+    "bloodType": "A+",
+    "units": 1,
+    "hospital": "City Central Hospital",
+    "donationDate": { "$date": "2024-03-01T10:00:00Z" },
+    "status": "completed",
+    "weight": 75,
+    "pointsEarned": 50,
+    "notes": "Regular donor.",
+    "createdAt": { "$date": "2024-03-01T09:30:00Z" },
+    "updatedAt": { "$date": "2024-03-01T10:30:00Z" }
+  },
+  {
+    "_id": { "$oid": "64a0b2dcf9c4a7001b90000d" },
+    "donorId": { "$oid": "64a0b2dcf9c4a7001b900003" },
+    "bloodType": "O-",
+    "units": 1,
+    "hospital": "Apollo Hospitals",
+    "donationDate": { "$date": "2024-04-10T09:00:00Z" },
+    "status": "pending",
+    "weight": 65,
+    "pointsEarned": 0,
+    "notes": "Scheduled for upcoming blood drive.",
+    "createdAt": { "$date": "2024-04-05T08:00:00Z" },
+    "updatedAt": { "$date": "2024-04-05T08:00:00Z" }
+  }
+]

@@ -1,0 +1,87 @@
+[
+  {
+    "_id": { "$oid": "64a0b2dcf9c4a7001b9000e1" },
+    "name": "Life4U Central Blood Bank",
+    "email": "contact@life4u.in",
+    "phone": "18001234567",
+    "registrationNumber": "BB-REG-100293",
+    "licenseNumber": "LIC-BB-8832",
+    "licenseExpiryDate": { "$date": "2028-12-31T00:00:00Z" },
+    "address": {
+      "street": "123 Donor Street, Healthcare District",
+      "city": "New Delhi",
+      "state": "Delhi",
+      "pincode": "110001",
+      "country": "India"
+    },
+    "coordinates": {
+      "latitude": 28.6139,
+      "longitude": 77.2090
+    },
+    "operatingHours": {
+      "monday": { "open": "08:00 AM", "close": "08:00 PM" },
+      "tuesday": { "open": "08:00 AM", "close": "08:00 PM" },
+      "wednesday": { "open": "08:00 AM", "close": "08:00 PM" },
+      "thursday": { "open": "08:00 AM", "close": "08:00 PM" },
+      "friday": { "open": "08:00 AM", "close": "08:00 PM" },
+      "saturday": { "open": "09:00 AM", "close": "05:00 PM" },
+      "sunday": { "open": "10:00 AM", "close": "02:00 PM" }
+    },
+    "capacity": {
+      "maxStorage": 5000,
+      "currentUsage": 2350,
+      "storageTemperature": 4
+    },
+    "staffCount": 45,
+    "accreditation": {
+      "isAccredited": true,
+      "accreditationBody": "NABH",
+      "validUntil": { "$date": "2027-04-10T00:00:00Z" }
+    },
+    "inventory": {
+      "totalUnits": 2,
+      "bloodTypes": {
+        "A+": 1,
+        "A-": 0,
+        "B+": 0,
+        "B-": 0,
+        "AB+": 0,
+        "AB-": 0,
+        "O+": 0,
+        "O-": 1
+      }
+    },
+    "statistics": {
+      "totalDonors": 2,
+      "totalDonations": 7,
+      "totalRequests": 2,
+      "totalFulfilled": 1,
+      "totalRejected": 0
+    },
+    "emergencyContact": {
+      "name": "Dr. Rajesh Kumar",
+      "phone": "9876543299",
+      "email": "emergency@life4u.in"
+    },
+    "website": "https://life4u.in",
+    "socialMedia": {
+      "facebook": "https://facebook.com/life4u",
+      "twitter": "https://twitter.com/life4u",
+      "instagram": "https://instagram.com/life4u"
+    },
+    "services": [
+      "blood_donation",
+      "blood_testing",
+      "transfusion",
+      "platelet_donation"
+    ],
+    "certifications": [
+      "ISO 9001:2015",
+      "NABH Accredited"
+    ],
+    "status": "active",
+    "notes": "Main headquarters and central processing lab.",
+    "createdAt": { "$date": "2023-01-01T00:00:00Z" },
+    "updatedAt": { "$date": "2024-04-05T00:00:00Z" }
+  }
+]

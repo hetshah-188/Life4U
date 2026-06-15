@@ -1,0 +1,136 @@
+@import "tailwindcss";
+
+@theme {
+  --color-primary: #FF3366;
+  --color-primary-dark: #E61E4D;
+  --color-primary-light: #FF6B8B;
+  --color-secondary: #7C3AED;
+  --color-secondary-light: #9F67FF;
+  --color-accent: #FFB347;
+  --color-dark: #0F172A;
+  --color-dark-light: #1E293B;
+  --color-gray: #64748B;
+  --color-light: #F8FAFC;
+  --color-white: #FFFFFF;
+  --color-success: #10B981;
+  --color-warning: #F59E0B;
+  --color-danger: #EF4444;
+
+  --font-clash: "Clash Display", sans-serif;
+  --font-inter: "Inter", sans-serif;
+
+  --radius-sm: 12px;
+  --radius-md: 20px;
+  --radius-lg: 30px;
+  --radius-xl: 40px;
+  --radius-2xl: 50px;
+
+  --shadow-sm: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06);
+  --shadow-md: 0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -2px rgba(0,0,0,0.05);
+  --shadow-lg: 0 20px 25px -5px rgba(0,0,0,0.1), 0 10px 10px -5px rgba(0,0,0,0.04);
+  --shadow-xl: 0 25px 50px -12px rgba(0,0,0,0.25);
+  --shadow-hover: 0 30px 60px -15px rgba(255,51,102,0.3);
+
+  --animate-pulse-banner: pulse-banner 2s infinite;
+  --animate-shake: shake 1s infinite;
+  --animate-drop: drop 3s infinite;
+  --animate-float-particle: float-particle 15s infinite linear;
+  --animate-fadeInLeft: fadeInLeft 1s ease;
+  --animate-fadeInRight: fadeInRight 1s ease;
+  --animate-float: float 4s ease-in-out infinite;
+  --animate-ticker: ticker 40s linear infinite;
+  --animate-pulse-live: pulse-live 1.5s infinite;
+  --animate-heartbeat: heartbeat 3s infinite;
+  --animate-pulse-step: pulse-step 2s infinite;
+  --animate-float-cta: float-cta 8s infinite;
+  --animate-pulse-emergency: pulse-emergency 2s infinite;
+
+  @keyframes pulse-banner {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.95; }
+  }
+  @keyframes shake {
+    0%, 100% { transform: rotate(0deg); }
+    25% { transform: rotate(10deg); }
+    75% { transform: rotate(-10deg); }
+  }
+  @keyframes drop {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-5px); }
+  }
+  @keyframes float-particle {
+    0% { transform: translateY(0) rotate(0deg); }
+    100% { transform: translateY(-100vh) rotate(720deg); }
+  }
+  @keyframes fadeInLeft {
+    from { opacity: 0; transform: translateX(-50px); }
+    to { opacity: 1; transform: translateX(0); }
+  }
+  @keyframes fadeInRight {
+    from { opacity: 0; transform: translateX(50px); }
+    to { opacity: 1; transform: translateX(0); }
+  }
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-15px); }
+  }
+  @keyframes ticker {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
+  @keyframes pulse-live {
+    0%, 100% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.5); opacity: 0.5; }
+  }
+  @keyframes heartbeat {
+    0%, 100% { transform: scale(1) rotate(15deg); }
+    50% { transform: scale(1.1) rotate(15deg); }
+  }
+  @keyframes pulse-step {
+    0%, 100% { transform: scale(1); opacity: 0.3; }
+    50% { transform: scale(1.2); opacity: 0.1; }
+  }
+  @keyframes float-cta {
+    0%, 100% { transform: translateY(0) rotate(15deg); }
+    50% { transform: translateY(-30px) rotate(15deg); }
+  }
+  @keyframes pulse-emergency {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+  }
+}
+
+@layer base {
+  body {
+    @apply font-inter bg-light text-dark overflow-x-hidden;
+  }
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-clash;
+  }
+  /* Custom Scrollbar */
+  ::-webkit-scrollbar {
+    width: 10px;
+  }
+  ::-webkit-scrollbar-track {
+    @apply bg-light;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: linear-gradient(135deg, #FF3366, #FF6B8B, #FFB347);
+    border-radius: 10px;
+  }
+}
+
+@layer components {
+  .btn-primary {
+    @apply px-10 py-4 bg-linear-to-br from-primary to-primary-light border-none rounded-2xl text-white font-semibold text-lg cursor-pointer transition-all duration-300 inline-flex items-center gap-2.5 no-underline hover:-translate-y-0.75 hover:shadow-hover;
+  }
+  .btn-secondary {
+    @apply px-10 py-4 bg-transparent border-2 border-primary rounded-2xl text-primary font-semibold text-lg cursor-pointer transition-all duration-300 inline-flex items-center gap-2.5 no-underline hover:bg-linear-to-br hover:from-primary hover:to-primary-light hover:border-transparent hover:text-white hover:-translate-y-0.75;
+  }
+  .section-badge {
+    @apply inline-block px-5 py-2 bg-primary/10 rounded-2xl text-primary font-semibold text-sm mb-5;
+  }
+  .gradient-text {
+    @apply bg-linear-to-br from-primary to-primary-light bg-clip-text text-transparent;
+  }
+}

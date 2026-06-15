@@ -1,0 +1,78 @@
+[
+  {
+    "_id": { "$oid": "64a0b2dcf9c4a7001b90000a" },
+    "requesterId": { "$oid": "64a0b2dcf9c4a7001b900004" },
+    "requesterName": "Amit Sharma",
+    "requesterPhone": "9876543213",
+    "requesterEmail": "amit.recipient@example.com",
+    "bloodType": "A+",
+    "quantity": 2,
+    "unit": "bags",
+    "reason": "surgery",
+    "description": "Patient undergoing heart bypass surgery on Friday.",
+    "urgency": "urgent",
+    "status": "pending",
+    "requestDate": { "$date": "2024-04-05T10:00:00Z" },
+    "requiredByDate": { "$date": "2024-04-10T10:00:00Z" },
+    "recipientDetails": {
+      "name": "Arun Sharma",
+      "age": 65,
+      "gender": "male",
+      "bloodType": "A+",
+      "hospitalName": "Apollo Hospitals",
+      "doctorName": "Dr. Vivek Kumar",
+      "medicalReason": "Heart Bypass Surgery"
+    },
+    "location": {
+      "hospital": "Apollo Hospitals",
+      "address": "45 Salt Lake Drive",
+      "city": "Kolkata",
+      "state": "West Bengal",
+      "pincode": "700091"
+    },
+    "priority": 2,
+    "createdAt": { "$date": "2024-04-05T10:00:00Z" },
+    "updatedAt": { "$date": "2024-04-05T10:00:00Z" }
+  },
+  {
+    "_id": { "$oid": "64a0b2dcf9c4a7001b90000b" },
+    "requesterId": { "$oid": "64a0b2dcf9c4a7001b900004" },
+    "requesterName": "Amit Sharma",
+    "requesterPhone": "9876543213",
+    "requesterEmail": "amit.recipient@example.com",
+    "bloodType": "O-",
+    "quantity": 1,
+    "unit": "bags",
+    "reason": "accident",
+    "description": "Accident trauma patient requires immediate universal donor blood.",
+    "urgency": "emergency",
+    "status": "fulfilled",
+    "requestDate": { "$date": "2024-03-20T10:00:00Z" },
+    "requiredByDate": { "$date": "2024-03-20T14:00:00Z" },
+    "approvedDate": { "$date": "2024-03-20T10:30:00Z" },
+    "fulfillmentDate": { "$date": "2024-03-20T12:00:00Z" },
+    "allocatedInventoryIds": [
+      { "$oid": "64a0b2dcf9c4a7001b900008" }
+    ],
+    "recipientDetails": {
+      "name": "Unknown",
+      "age": 30,
+      "gender": "male",
+      "bloodType": "O-",
+      "hospitalName": "City Trauma Center",
+      "doctorName": "Dr. S. Patil",
+      "medicalReason": "Road Accident Trauma"
+    },
+    "location": {
+      "hospital": "City Trauma Center",
+      "address": "12 Ring Road",
+      "city": "Mumbai",
+      "state": "Maharashtra",
+      "pincode": "400010"
+    },
+    "approvedBy": { "$oid": "64a0b2dcf9c4a7001b900001" },
+    "priority": 3,
+    "createdAt": { "$date": "2024-03-20T10:00:00Z" },
+    "updatedAt": { "$date": "2024-03-20T12:05:00Z" }
+  }
+]
