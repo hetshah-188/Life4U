@@ -463,22 +463,6 @@ const Login = () => {
 
   const handleRoleSelect = (role) => {
     setSelectedRole(role);
-    if (role === 'Admin') {
-      setEmail('admin@life4u.in');
-      setPassword('password123');
-    } else if (role === 'Donor') {
-      setEmail('rahul.donor@example.com');
-      setPassword('password123');
-    } else if (role === 'Patient') {
-      setEmail('amit.recipient@example.com');
-      setPassword('password123');
-    } else if (role === 'Hospital') {
-      setEmail('city.hospital@example.com');
-      setPassword('password123');
-    } else {
-      setEmail('');
-      setPassword('');
-    }
   };
 
   const handleSubmit = async (e) => {
@@ -486,6 +470,21 @@ const Login = () => {
     setLoading(true);
     try {
       const data = await authService.login(email, password);
+      
+      // Enforce role restrictions if a role is selected
+      if (selectedRole === 'Admin' && data.user.role !== 'admin') {
+        throw new Error('Access denied. Only administrators can log in under the Admin role.');
+      }
+      if (selectedRole === 'Hospital' && data.user.role !== 'staff') {
+        throw new Error('Access denied. Only hospital partners can log in under this role.');
+      }
+      if (selectedRole === 'Donor' && data.user.role !== 'donor') {
+        throw new Error('Access denied. Only donors can log in under this role.');
+      }
+      if (selectedRole === 'Patient' && data.user.role !== 'recipient') {
+        throw new Error('Access denied. Only patients can log in under this role.');
+      }
+
       login(data.user, data.token);
     } catch (err) {
       toast(err.message, 'error');
@@ -516,9 +515,9 @@ const Login = () => {
         </div>
 
         <form onSubmit={handleSubmit}>
-          {/* Quick Login Dropdown */}
+          {/* Select Role */}
           <div style={{ marginBottom: 18 }}>
-            <label style={{ display: 'block', marginBottom: 6, fontWeight: 700, fontSize: 13, color: '#374151' }}>Quick Login (Select Role)</label>
+            <label style={{ display: 'block', marginBottom: 6, fontWeight: 700, fontSize: 13, color: '#374151' }}>Select Role</label>
             <div className="relative flex items-center">
               <i className="fas fa-user-tag absolute left-3" style={{ color: '#9ca3af', pointerEvents: 'none', zIndex: 10 }}></i>
               <select
@@ -527,11 +526,11 @@ const Login = () => {
                 className={inputCls}
                 style={{ cursor: 'pointer', appearance: 'none', paddingRight: '40px' }}
               >
-                <option value="">-- Manual Login --</option>
-                <option value="Admin">Admin (admin@life4u.in)</option>
-                <option value="Hospital">Hospital Partner (city.hospital@example.com)</option>
-                <option value="Donor">Donor (rahul.donor@example.com)</option>
-                <option value="Patient">Patient (amit.recipient@example.com)</option>
+                <option value="">-- Select Role --</option>
+                <option value="Admin">Admin</option>
+                <option value="Hospital">Hospital Partner</option>
+                <option value="Donor">Donor</option>
+                <option value="Patient">Patient</option>
               </select>
               <i className="fas fa-chevron-down absolute right-3 pointer-events-none" style={{ color: '#9ca3af', fontSize: 12 }}></i>
             </div>
@@ -577,18 +576,20 @@ const Login = () => {
               <input type="checkbox" style={{ accentColor: '#FF3366' }} />
               Remember me
             </label>
-            <button
-              type="button"
-              onClick={() => setShowForgot(true)}
-              style={{
-                background: 'none', border: 'none', color: '#FF3366',
-                fontWeight: 700, fontSize: 14, cursor: 'pointer',
-                fontFamily: 'inherit', textDecoration: 'none',
-                padding: 0,
-              }}
-            >
-              Forgot password?
-            </button>
+            {selectedRole !== 'Admin' && (
+              <button
+                type="button"
+                onClick={() => setShowForgot(true)}
+                style={{
+                  background: 'none', border: 'none', color: '#FF3366',
+                  fontWeight: 700, fontSize: 14, cursor: 'pointer',
+                  fontFamily: 'inherit', textDecoration: 'none',
+                  padding: 0,
+                }}
+              >
+                Forgot password?
+              </button>
+            )}
           </div>
 
           {/* Submit */}
