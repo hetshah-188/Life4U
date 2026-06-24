@@ -1,7 +1,38 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { bloodbankService } from '../services/api';
 
 const Hero = () => {
+  const [stats, setStats] = useState({
+    donors: '100K+',
+    responseTime: '45min',
+    livesSaved: '300K+',
+    cities: '500+'
+  });
+
+  useEffect(() => {
+    const loadStats = async () => {
+      try {
+        const response = await bloodbankService.getStats();
+        if (response.success && response.data) {
+          const totalDonors = response.data.donors?.total || 0;
+          const fulfilled = response.data.requests?.fulfilled || 0;
+          setStats({
+            donors: totalDonors > 0 ? `${totalDonors}` : '100K+',
+            responseTime: '45min',
+            livesSaved: fulfilled > 0 ? `${fulfilled * 3}` : '300K+',
+            cities: '500+'
+          });
+        }
+      } catch (err) {
+        console.error('Error fetching stats in Hero component:', err);
+      }
+    };
+    loadStats();
+    const interval = setInterval(loadStats, 30000);
+    return () => clearInterval(interval);
+  }, []);
+
   const particles = useMemo(() =>
     Array.from({ length: 20 }, (_, i) => ({
       id: i,
@@ -51,10 +82,10 @@ const Hero = () => {
           </div>
           <div className="flex gap-10 flex-wrap">
             {[
-              { num: '100K+', label: 'Active Donors' },
-              { num: '45min', label: 'Response Time' },
-              { num: '300K+', label: 'Lives Saved' },
-              { num: '500+', label: 'Cities' }
+              { num: stats.donors, label: 'Active Donors' },
+              { num: stats.responseTime, label: 'Response Time' },
+              { num: stats.livesSaved, label: 'Lives Saved' },
+              { num: stats.cities, label: 'Cities' }
             ].map((stat, i) => (
               <div key={i} className="text-center">
                 <div className="text-[2.5rem] font-extrabold bg-linear-to-br from-primary to-primary-light bg-clip-text text-transparent leading-none mb-1.25">

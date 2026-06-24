@@ -20,7 +20,7 @@ export const getAllDonations = async (req, res) => {
       include: [{
         model: Donor,
         as: 'donor',
-        include: [{ model: User, as: 'user', attributes: ['name', 'email'] }]
+        include: [{ model: User, as: 'user', attributes: ['name', 'email', 'phone', 'address', 'city', 'state', 'pincode', 'dateOfBirth'] }]
       }],
       offset: parseInt(offset),
       limit: parseInt(limit),
@@ -51,7 +51,13 @@ export const getAllDonations = async (req, res) => {
 // @access  Private
 export const getDonationById = async (req, res) => {
   try {
-    const donation = await Donation.findByPk(req.params.id);
+    const donation = await Donation.findByPk(req.params.id, {
+      include: [{
+        model: Donor,
+        as: 'donor',
+        include: [{ model: User, as: 'user', attributes: ['name', 'email', 'phone', 'address', 'city', 'state', 'pincode', 'dateOfBirth'] }]
+      }]
+    });
 
     if (!donation) {
       return res.status(404).json({

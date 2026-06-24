@@ -73,6 +73,7 @@ export default function HospitalDashboard() {
     const [loading, setLoading] = useState(true);
     const [receiptModal, setReceiptModal] = useState(null);
     const [activeApptDetail, setActiveApptDetail] = useState(null);
+    const [activeReqDetail, setActiveReqDetail] = useState(null);
 
     const loadDashboardData = async () => {
         try {
@@ -450,7 +451,15 @@ export default function HospitalDashboard() {
                         <tbody>
                             {activeRequests.map((r, i) => (
                                 <tr key={r.id || i} style={{ background: i % 2 === 0 ? "#fff" : "#fafafa" }}>
-                                    <td style={{ ...TD, fontWeight: 700 }}>REQ-{r.id?.substring(0, 8).toUpperCase()}</td>
+                                    <td style={{ ...TD, fontWeight: 700 }}>
+                                        <span 
+                                            onClick={() => setActiveReqDetail(r)} 
+                                            style={{ color: TEAL, cursor: 'pointer', textDecoration: 'underline' }}
+                                            title="View Details"
+                                        >
+                                            REQ-{r.id?.substring(0, 8).toUpperCase()}
+                                        </span>
+                                    </td>
                                     <td style={TD}>{r.recipientName || "General patient"}</td>
                                     <td style={{ ...TD, fontWeight: 700, color: TEAL }}>{r.bloodType}</td>
                                     <td style={TD}>{r.quantity} units</td>
@@ -498,7 +507,15 @@ export default function HospitalDashboard() {
                         <tbody>
                             {completedRequests.map((r, i) => (
                                 <tr key={r.id || i} style={{ background: i % 2 === 0 ? "#fff" : "#fafafa" }}>
-                                    <td style={{ ...TD, fontWeight: 700 }}>REQ-{r.id?.substring(0, 8).toUpperCase()}</td>
+                                    <td style={{ ...TD, fontWeight: 700 }}>
+                                        <span 
+                                            onClick={() => setActiveReqDetail(r)} 
+                                            style={{ color: TEAL, cursor: 'pointer', textDecoration: 'underline' }}
+                                            title="View Details"
+                                        >
+                                            REQ-{r.id?.substring(0, 8).toUpperCase()}
+                                        </span>
+                                    </td>
                                     <td style={TD}>{r.recipientName || "Trauma Patient"}</td>
                                     <td style={{ ...TD, fontWeight: 700, color: TEAL }}>{r.bloodType}</td>
                                     <td style={TD}>{formatDate(r.fulfillmentDate)}</td>
@@ -740,6 +757,90 @@ export default function HospitalDashboard() {
                     </div>
 
                     <button onClick={() => setActiveApptDetail(null)} style={{ width: '100%', padding: '11px 0', borderRadius: 10, background: `linear-gradient(135deg,${TEAL_DARK},${TEAL})`, border: 'none', color: '#fff', fontWeight: 800, fontSize: 14, cursor: 'pointer' }}>
+                        Close Details
+                    </button>
+                </div>
+            </div>
+        )}
+
+        {/* Active Request Detail Modal */}
+        {activeReqDetail && (
+            <div style={{ position: 'fixed', inset: 0, zIndex: 500, background: 'rgba(15,23,42,0.6)', backdropFilter: 'blur(4px)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                <div style={{ background: '#fff', borderRadius: 24, padding: 32, maxWidth: 500, width: '90%', boxShadow: '0 20px 25px -5px rgba(0,0,0,0.1), 0 10px 10px -5px rgba(0,0,0,0.04)', position: 'relative', border: '1px solid #eef2f6', fontFamily: "'Segoe UI', sans-serif" }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 20 }}>
+                        <h2 style={{ fontWeight: 800, fontSize: 18, color: '#1e293b', margin: 0 }}>📋 Request Details</h2>
+                        <button onClick={() => setActiveReqDetail(null)} style={{ background: 'none', border: 'none', fontSize: 20, cursor: 'pointer', color: '#64748b' }}>✕</button>
+                    </div>
+
+                    <div style={{ background: '#f8fafc', borderRadius: 16, padding: 20, border: '1px solid #e2e8f0', marginBottom: 20, maxHeight: '60vh', overflowY: 'auto' }}>
+                        <div style={{ fontSize: 11, fontWeight: 800, color: TEAL, textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: 12 }}>👤 Requester Information</div>
+                        <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginBottom: 16 }}>
+                            {[
+                                ['Requester Name', activeReqDetail.requesterName || 'N/A'],
+                                ['Phone', activeReqDetail.requesterPhone || 'N/A'],
+                                ['Email', activeReqDetail.requesterEmail || 'N/A'],
+                            ].map(([label, val]) => (
+                                <div key={label} style={{ display: 'flex', justifyContent: 'space-between', fontSize: 13 }}>
+                                    <span style={{ color: '#64748b', fontWeight: 600 }}>{label}:</span>
+                                    <span style={{ fontWeight: 700, color: '#1e293b' }}>{val}</span>
+                                </div>
+                            ))}
+                        </div>
+
+                        <div style={{ fontSize: 11, fontWeight: 800, color: TEAL, textTransform: 'uppercase', letterSpacing: '0.05em', borderTop: '1px solid #e2e8f0', paddingTop: 12, marginBottom: 12 }}>🏥 Patient & Hospital</div>
+                        <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginBottom: 16 }}>
+                            {[
+                                ['Patient Name', activeReqDetail.recipientName || 'N/A'],
+                                ['Patient Age', activeReqDetail.recipientAge || 'N/A'],
+                                ['Patient Gender', activeReqDetail.recipientGender || 'N/A'],
+                                ['Hospital Name', activeReqDetail.hospitalName || 'N/A'],
+                                ['Doctor Name', activeReqDetail.doctorName || 'N/A'],
+                                ['Reason', activeReqDetail.reason ? activeReqDetail.reason.replace('_', ' ').toUpperCase() : 'N/A'],
+                            ].map(([label, val]) => (
+                                <div key={label} style={{ display: 'flex', justifyContent: 'space-between', fontSize: 13 }}>
+                                    <span style={{ color: '#64748b', fontWeight: 600 }}>{label}:</span>
+                                    <span style={{ fontWeight: 700, color: '#1e293b' }}>{val}</span>
+                                </div>
+                            ))}
+                        </div>
+
+                        <div style={{ fontSize: 11, fontWeight: 800, color: TEAL, textTransform: 'uppercase', letterSpacing: '0.05em', borderTop: '1px solid #e2e8f0', paddingTop: 12, marginBottom: 12 }}>🩸 Blood Needed</div>
+                        <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginBottom: 16 }}>
+                            {[
+                                ['Request ID', `REQ-${activeReqDetail.id?.substring(0, 8).toUpperCase()}`],
+                                ['Blood Type', activeReqDetail.bloodType],
+                                ['Quantity', `${activeReqDetail.quantity} units`],
+                                ['Urgency', activeReqDetail.urgency ? activeReqDetail.urgency.toUpperCase() : 'ROUTINE'],
+                                ['Request Date', formatDate(activeReqDetail.requestDate || activeReqDetail.createdAt)],
+                                ['Required By Date', formatDate(activeReqDetail.requiredByDate)],
+                                ['Status', activeReqDetail.status.toUpperCase()],
+                            ].map(([label, val]) => (
+                                <div key={label} style={{ display: 'flex', justifyContent: 'space-between', fontSize: 13 }}>
+                                    <span style={{ color: '#64748b', fontWeight: 600 }}>{label}:</span>
+                                    <span style={{ fontWeight: 700, color: '#1e293b' }}>{val}</span>
+                                </div>
+                            ))}
+                        </div>
+
+                        {activeReqDetail.address && (
+                            <>
+                                <div style={{ fontSize: 11, fontWeight: 800, color: TEAL, textTransform: 'uppercase', letterSpacing: '0.05em', borderTop: '1px solid #e2e8f0', paddingTop: 12, marginBottom: 12 }}>📍 Delivery Address</div>
+                                <div style={{ fontSize: 13, color: '#1e293b', fontWeight: 600, lineHeight: 1.4 }}>
+                                    {activeReqDetail.address}, {activeReqDetail.city}, {activeReqDetail.state} - {activeReqDetail.pincode}
+                                </div>
+                            </>
+                        )}
+                        {activeReqDetail.description && (
+                            <>
+                                <div style={{ fontSize: 11, fontWeight: 800, color: TEAL, textTransform: 'uppercase', letterSpacing: '0.05em', borderTop: '1px solid #e2e8f0', paddingTop: 12, marginBottom: 12 }}>📝 Medical Notes</div>
+                                <div style={{ fontSize: 13, color: '#64748b', fontStyle: 'italic', lineHeight: 1.4 }}>
+                                    "{activeReqDetail.description}"
+                                </div>
+                            </>
+                        )}
+                    </div>
+
+                    <button onClick={() => setActiveReqDetail(null)} style={{ width: '100%', padding: '11px 0', borderRadius: 10, background: `linear-gradient(135deg,${TEAL_DARK},${TEAL})`, border: 'none', color: '#fff', fontWeight: 800, fontSize: 14, cursor: 'pointer' }}>
                         Close Details
                     </button>
                 </div>

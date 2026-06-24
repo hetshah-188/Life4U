@@ -267,7 +267,7 @@ const BecomeDonor = () => {
                   <input type="text" placeholder={field} disabled className="w-full p-[15px_20px] bg-white/15 border border-white/30 rounded-[15px] text-white placeholder:text-white/60" />
                 </div>
               ))}
-              <button onClick={() => window.location.href='/signup'} className="w-full p-[15px] bg-linear-to-br from-primary to-primary-light border-none rounded-[15px] text-white text-[1.1rem] font-bold cursor-pointer transition-all hover:-translate-y-0.5 hover:shadow-[0_10px_20px_rgba(255,75,75,0.3)]">
+              <button onClick={() => window.location.href='/#/signup'} className="w-full p-[15px] bg-linear-to-br from-primary to-primary-light border-none rounded-[15px] text-white text-[1.1rem] font-bold cursor-pointer transition-all hover:-translate-y-0.5 hover:shadow-[0_10px_20px_rgba(255,75,75,0.3)]">
                 <i className="fas fa-arrow-right"></i> Complete Registration
               </button>
               <p className="text-center opacity-80 text-[0.9rem] mt-[15px]">👆 Click to create your donor profile</p>

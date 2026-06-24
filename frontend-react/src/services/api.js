@@ -25,11 +25,11 @@ api.interceptors.request.use(
 api.interceptors.response.use(
   (response) => response,
   (error) => {
-    if (error.response?.status === 401) {
+    if (error.response?.status === 401 && !error.config?.url?.includes('/auth/login')) {
       // Token expired — clear storage and redirect to login
       localStorage.removeItem('bbms_token');
       localStorage.removeItem('bbms_user');
-      window.location.href = '/login';
+      window.location.href = '/#/login';
       return Promise.reject(new Error('Session expired. Please log in again.'));
     }
     const message =

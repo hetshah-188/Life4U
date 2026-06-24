@@ -304,7 +304,7 @@ const InventoryTab = ({ inventory, onAdd, onDelete, loading }) => {
 };
 
 /* ─── Requests Tab ─── */
-const RequestsTab = ({ requests, onStatusChange, onDelete }) => {
+const RequestsTab = ({ requests, onStatusChange, onDelete, onSelectRequest }) => {
   const [filter, setFilter] = useState("all");
   const filtered = filter === "all" ? requests : requests.filter(r => r.status === filter);
 
@@ -346,7 +346,13 @@ const RequestsTab = ({ requests, onStatusChange, onDelete }) => {
             {filtered.map((r, i) => (
               <tr key={r.id || i} style={{ background: i % 2 === 0 ? "#fff" : "#fafafa" }}>
                 <td style={{ ...S.td, fontFamily: "monospace", fontSize: 11 }}>
-                  REQ-{r.id?.substring(0, 6).toUpperCase()}
+                  <span 
+                    onClick={() => onSelectRequest(r)} 
+                    style={{ color: "#FF3366", cursor: 'pointer', textDecoration: 'underline', fontWeight: 700 }}
+                    title="View Details"
+                  >
+                    REQ-{r.id?.substring(0, 8).toUpperCase()}
+                  </span>
                 </td>
                 <td style={{ ...S.td, fontWeight: 600 }}>{r.recipientName || r.requesterName || "N/A"}</td>
                 <td style={{ ...S.td, fontWeight: 700, color: "#FF3366" }}>{r.bloodType}</td>
@@ -842,6 +848,8 @@ export default function AdminDashboard() {
   const [appointments, setAppointments] = useState([]);
   const [showAddBlood, setShowAddBlood] = useState(false);
   const [receiptModal, setReceiptModal] = useState(null);
+  const [activeReqDetail, setActiveReqDetail] = useState(null);
+  const [activeApptDetail, setActiveApptDetail] = useState(null);
 
   const loadData = useCallback(async () => {
     try {
@@ -974,7 +982,7 @@ export default function AdminDashboard() {
       case "inventory":
         return <InventoryTab inventory={inventory} onAdd={() => setShowAddBlood(true)} onDelete={handleDeleteInventory} />;
       case "requests":
-        return <RequestsTab requests={requests} onStatusChange={handleRequestStatusChange} onDelete={handleRequestDelete} />;
+        return <RequestsTab requests={requests} onStatusChange={handleRequestStatusChange} onDelete={handleRequestDelete} onSelectRequest={setActiveReqDetail} />;
       case "donors":
         return <DonorsTab donors={donors} />;
       case "hospitals":
@@ -1007,6 +1015,153 @@ export default function AdminDashboard() {
           onClose={() => setReceiptModal(null)}
           onDownload={downloadReceipt}
         />
+      )}
+
+      {/* Request Details Modal */}
+      {activeReqDetail && (
+        <div style={{ position: 'fixed', inset: 0, zIndex: 500, background: 'rgba(15,23,42,0.6)', backdropFilter: 'blur(4px)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          <div style={{ background: '#fff', borderRadius: 24, padding: 32, maxWidth: 500, width: '90%', boxShadow: '0 20px 25px -5px rgba(0,0,0,0.1), 0 10px 10px -5px rgba(0,0,0,0.04)', position: 'relative', border: '1px solid #eef2f6', fontFamily: "'Segoe UI', sans-serif" }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 20 }}>
+              <h2 style={{ fontWeight: 800, fontSize: 18, color: '#1e293b', margin: 0 }}>📋 Request Details</h2>
+              <button onClick={() => setActiveReqDetail(null)} style={{ background: 'none', border: 'none', fontSize: 20, cursor: 'pointer', color: '#64748b' }}>✕</button>
+            </div>
+
+            <div style={{ background: '#f8fafc', borderRadius: 16, padding: 20, border: '1px solid #e2e8f0', marginBottom: 20, maxHeight: '60vh', overflowY: 'auto' }}>
+              <div style={{ fontSize: 11, fontWeight: 800, color: '#FF3366', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: 12 }}>👤 Requester Information</div>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginBottom: 16 }}>
+                {[
+                  ['Requester Name', activeReqDetail.requesterName || 'N/A'],
+                  ['Phone', activeReqDetail.requesterPhone || 'N/A'],
+                  ['Email', activeReqDetail.requesterEmail || 'N/A'],
+                ].map(([label, val]) => (
+                  <div key={label} style={{ display: 'flex', justifyContent: 'space-between', fontSize: 13 }}>
+                    <span style={{ color: '#64748b', fontWeight: 600 }}>{label}:</span>
+                    <span style={{ fontWeight: 700, color: '#1e293b' }}>{val}</span>
+                  </div>
+                ))}
+              </div>
+
+              <div style={{ fontSize: 11, fontWeight: 800, color: '#FF3366', textTransform: 'uppercase', letterSpacing: '0.05em', borderTop: '1px solid #e2e8f0', paddingTop: 12, marginBottom: 12 }}>🏥 Patient & Hospital</div>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginBottom: 16 }}>
+                {[
+                  ['Patient Name', activeReqDetail.recipientName || 'N/A'],
+                  ['Patient Age', activeReqDetail.recipientAge || 'N/A'],
+                  ['Patient Gender', activeReqDetail.recipientGender || 'N/A'],
+                  ['Hospital Name', activeReqDetail.hospitalName || 'N/A'],
+                  ['Doctor Name', activeReqDetail.doctorName || 'N/A'],
+                  ['Reason', activeReqDetail.reason ? activeReqDetail.reason.replace('_', ' ').toUpperCase() : 'N/A'],
+                ].map(([label, val]) => (
+                  <div key={label} style={{ display: 'flex', justifyContent: 'space-between', fontSize: 13 }}>
+                    <span style={{ color: '#64748b', fontWeight: 600 }}>{label}:</span>
+                    <span style={{ fontWeight: 700, color: '#1e293b' }}>{val}</span>
+                  </div>
+                ))}
+              </div>
+
+              <div style={{ fontSize: 11, fontWeight: 800, color: '#FF3366', textTransform: 'uppercase', letterSpacing: '0.05em', borderTop: '1px solid #e2e8f0', paddingTop: 12, marginBottom: 12 }}>🩸 Blood Needed</div>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginBottom: 16 }}>
+                {[
+                  ['Request ID', `REQ-${activeReqDetail.id?.substring(0, 8).toUpperCase()}`],
+                  ['Blood Type', activeReqDetail.bloodType],
+                  ['Quantity', `${activeReqDetail.quantity} units`],
+                  ['Urgency', activeReqDetail.urgency ? activeReqDetail.urgency.toUpperCase() : 'ROUTINE'],
+                  ['Request Date', activeReqDetail.requestDate || activeReqDetail.createdAt ? new Date(activeReqDetail.requestDate || activeReqDetail.createdAt).toLocaleDateString() : 'N/A'],
+                  ['Required By Date', activeReqDetail.requiredByDate ? new Date(activeReqDetail.requiredByDate).toLocaleDateString() : 'N/A'],
+                  ['Status', activeReqDetail.status.toUpperCase()],
+                ].map(([label, val]) => (
+                  <div key={label} style={{ display: 'flex', justifyContent: 'space-between', fontSize: 13 }}>
+                    <span style={{ color: '#64748b', fontWeight: 600 }}>{label}:</span>
+                    <span style={{ fontWeight: 700, color: '#1e293b' }}>{val}</span>
+                  </div>
+                ))}
+              </div>
+
+              {activeReqDetail.address && (
+                <>
+                  <div style={{ fontSize: 11, fontWeight: 800, color: '#FF3366', textTransform: 'uppercase', letterSpacing: '0.05em', borderTop: '1px solid #e2e8f0', paddingTop: 12, marginBottom: 12 }}>📍 Delivery Address</div>
+                  <div style={{ fontSize: 13, color: '#1e293b', fontWeight: 600, lineHeight: 1.4 }}>
+                    {activeReqDetail.address}, {activeReqDetail.city}, {activeReqDetail.state} - {activeReqDetail.pincode}
+                  </div>
+                </>
+              )}
+              {activeReqDetail.description && (
+                <>
+                  <div style={{ fontSize: 11, fontWeight: 800, color: '#FF3366', textTransform: 'uppercase', letterSpacing: '0.05em', borderTop: '1px solid #e2e8f0', paddingTop: 12, marginBottom: 12 }}>📝 Medical Notes</div>
+                  <div style={{ fontSize: 13, color: '#64748b', fontStyle: 'italic', lineHeight: 1.4 }}>
+                    "{activeReqDetail.description}"
+                  </div>
+                </>
+              )}
+            </div>
+
+            <button onClick={() => setActiveReqDetail(null)} style={{ width: '100%', padding: '11px 0', borderRadius: 10, background: `linear-gradient(135deg,#E61E4D,#FF3366)`, border: 'none', color: '#fff', fontWeight: 800, fontSize: 14, cursor: 'pointer' }}>
+              Close Details
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* Appointment/Donation Details Modal */}
+      {activeApptDetail && (
+        <div style={{ position: 'fixed', inset: 0, zIndex: 500, background: 'rgba(15,23,42,0.6)', backdropFilter: 'blur(4px)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          <div style={{ background: '#fff', borderRadius: 24, padding: 32, maxWidth: 500, width: '90%', boxShadow: '0 20px 25px -5px rgba(0,0,0,0.1), 0 10px 10px -5px rgba(0,0,0,0.04)', position: 'relative', border: '1px solid #eef2f6', fontFamily: "'Segoe UI', sans-serif" }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 20 }}>
+              <h2 style={{ fontWeight: 800, fontSize: 18, color: '#1e293b', margin: 0 }}>📋 Appointment Details</h2>
+              <button onClick={() => setActiveApptDetail(null)} style={{ background: 'none', border: 'none', fontSize: 20, cursor: 'pointer', color: '#64748b' }}>✕</button>
+            </div>
+
+            <div style={{ background: '#f8fafc', borderRadius: 16, padding: 20, border: '1px solid #e2e8f0', marginBottom: 20 }}>
+              <div style={{ fontSize: 11, fontWeight: 800, color: '#FF3366', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: 12 }}>👤 Donor Information</div>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginBottom: 16 }}>
+                {[
+                  ['Donor ID', `DON-${activeApptDetail.donorId?.substring(0, 8).toUpperCase()}`],
+                  ['Name', activeApptDetail.donor?.user?.name || donors.find(d => d.id === activeApptDetail.donorId)?.user?.name || 'N/A'],
+                  ['Email', activeApptDetail.donor?.user?.email || donors.find(d => d.id === activeApptDetail.donorId)?.user?.email || 'N/A'],
+                  ['Phone', activeApptDetail.donor?.user?.phone || donors.find(d => d.id === activeApptDetail.donorId)?.user?.phone || 'N/A'],
+                  ['Blood Type', activeApptDetail.bloodType],
+                ].map(([label, val]) => (
+                  <div key={label} style={{ display: 'flex', justifyContent: 'space-between', fontSize: 13 }}>
+                    <span style={{ color: '#64748b', fontWeight: 600 }}>{label}:</span>
+                    <span style={{ fontWeight: 700, color: '#1e293b' }}>{val}</span>
+                  </div>
+                ))}
+              </div>
+
+              <div style={{ fontSize: 11, fontWeight: 800, color: '#FF3366', textTransform: 'uppercase', letterSpacing: '0.05em', borderTop: '1px solid #e2e8f0', paddingTop: 12, marginBottom: 12 }}>📅 Appointment Details</div>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginBottom: 16 }}>
+                {[
+                  ['Appt ID', `APT-${activeApptDetail.id?.substring(0, 8).toUpperCase()}`],
+                  ['Date', new Date(activeApptDetail.donationDate).toLocaleDateString()],
+                  ['Time Slot', (activeApptDetail.notes || '').match(/Slot:\s*([^,]+)/)?.[1] || '09:15 AM'],
+                  ['Donation Stream', (activeApptDetail.notes || '').match(/Stream:\s*([^,]+)/)?.[1] || 'Whole Blood'],
+                  ['Status', activeApptDetail.status.toUpperCase()],
+                ].map(([label, val]) => (
+                  <div key={label} style={{ display: 'flex', justifyContent: 'space-between', fontSize: 13 }}>
+                    <span style={{ color: '#64748b', fontWeight: 600 }}>{label}:</span>
+                    <span style={{ fontWeight: 700, color: '#1e293b' }}>{val}</span>
+                  </div>
+                ))}
+              </div>
+
+              <div style={{ fontSize: 11, fontWeight: 800, color: '#FF3366', textTransform: 'uppercase', letterSpacing: '0.05em', borderTop: '1px solid #e2e8f0', paddingTop: 12, marginBottom: 12 }}>🏥 Hospital Details</div>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+                {[
+                  ['Center', activeApptDetail.hospital || 'Life4U Center'],
+                  ['Address', activeApptDetail.hospital === "Sunflower Hospital Multispeciality" ? "421 Neon Way, Suite 100" : activeApptDetail.hospital === "Sal Hospital" ? "88 Wilshire Blvd" : "88 Highfield Road"],
+                ].map(([label, val]) => (
+                  <div key={label} style={{ display: 'flex', justifyContent: 'space-between', fontSize: 13 }}>
+                    <span style={{ color: '#64748b', fontWeight: 600 }}>{label}:</span>
+                    <span style={{ fontWeight: 700, color: '#1e293b', textAlign: 'right', maxWidth: '60%' }}>{val}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <button onClick={() => setActiveApptDetail(null)} style={{ width: '100%', padding: '11px 0', borderRadius: 10, background: `linear-gradient(135deg,#E61E4D,#FF3366)`, border: 'none', color: '#fff', fontWeight: 800, fontSize: 14, cursor: 'pointer' }}>
+              Close Details
+            </button>
+          </div>
+        </div>
       )}
 
       <div style={{ fontFamily: "'Segoe UI', system-ui, sans-serif", background: "#FFF5F5", minHeight: "100vh" }}>
@@ -1119,7 +1274,15 @@ export default function AdminDashboard() {
                       const stream = a.notes?.match(/Stream:\s*([^,]+)/)?.[1]?.trim() || "Whole Blood";
                       return (
                         <tr key={a.id || i} style={{ background: i % 2 === 0 ? "#fff" : "#fafafa" }}>
-                          <td style={{ ...S.td, fontFamily: "monospace", fontSize: 11 }}>APT-{a.id?.substring(0, 8).toUpperCase()}</td>
+                          <td style={{ ...S.td, fontFamily: "monospace", fontSize: 11 }}>
+                            <span 
+                              onClick={() => setActiveApptDetail(a)} 
+                              style={{ color: "#FF3366", cursor: 'pointer', textDecoration: 'underline', fontWeight: 700 }}
+                              title="View Details"
+                            >
+                              APT-{a.id?.substring(0, 8).toUpperCase()}
+                            </span>
+                          </td>
                           <td style={{ ...S.td, fontWeight: 700, color: "#FF3366" }}>{a.bloodType}</td>
                           <td style={S.td}>{stream}</td>
                           <td style={S.td}>{a.hospital || "Life4U Center"}</td>

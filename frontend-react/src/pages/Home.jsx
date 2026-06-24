@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import Layout from '../components/Layout';
 import Hero from '../components/Hero';
 import LiveTicker from '../components/LiveTicker';
+import BloodStock from '../components/BloodStock';
 import Features from '../components/Features';
 import HowItWorks from '../components/HowItWorks';
 import Testimonials from '../components/Testimonials';
@@ -15,6 +16,7 @@ const Home = () => {
     <Layout>
       <Hero />
       <LiveTicker />
+      <BloodStock onEmergencyRequest={() => setIsEmergencyModalOpen(true)} />
       <Features />
       <HowItWorks />
       <Testimonials />
